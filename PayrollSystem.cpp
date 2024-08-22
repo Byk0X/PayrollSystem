@@ -9,7 +9,7 @@ double taxRate = 0.23;
 double insurance = 0.19;
 
 double PayrollSystem::calculateGrossPay(int employeeID, const std::string &startDate, const std::string &endDate,
-    DatabaseConnection db) {
+    DatabaseConnection &db) {
 
     double totalHoursWorked = 0.0;
     double hourlyRate = 0.0;
@@ -33,14 +33,14 @@ double PayrollSystem::calculateGrossPay(int employeeID, const std::string &start
 
 }
 
-double PayrollSystem::calculateDeductions(int employeeID, double grossPay, DatabaseConnection db) {
+double PayrollSystem::calculateDeductions(int employeeID, double grossPay, DatabaseConnection &db) {
 
     double deductions = (grossPay * taxRate) + insurance;
     return deductions;
 }
 
 double PayrollSystem::calculateNetPay(int employeeID, const std::string &startDate, const std::string &endDate,
-    DatabaseConnection db) {
+    DatabaseConnection &db) {
 
     double grossPay = calculateGrossPay(employeeID, startDate, endDate, db);
     double deductions = calculateDeductions(employeeID, grossPay, db);
@@ -49,7 +49,7 @@ double PayrollSystem::calculateNetPay(int employeeID, const std::string &startDa
 }
 
 void PayrollSystem::generatePayrollReport(const std::string &startDate, const std::string &endDate,
-    DatabaseConnection db) {
+    DatabaseConnection &db) {
 
     std::string query = "SELECT employeeID FROM Employees;";
     auto results = db.fetchResults(query);
@@ -71,7 +71,7 @@ void PayrollSystem::generatePayrollReport(const std::string &startDate, const st
 }
 
 void PayrollSystem::generateEmployeeHoursReport(int employeeID, const std::string &startDate,
-    const std::string &endDate, DatabaseConnection db) {
+    const std::string &endDate, DatabaseConnection &db) {
 
     std::string query = "SELECT date, hoursWorked FROM Attendance WHERE employeeID = " + std::to_string(employeeID) +
                         " AND date >= '" + startDate + "' AND date <= '" + endDate + "';";

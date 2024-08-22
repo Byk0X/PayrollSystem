@@ -6,7 +6,6 @@
 #define EMPLOYEE_H
 
 #include <string>
-#include <sqlite3.h>
 
 #include "DatabaseConnection.h"
 
@@ -33,14 +32,15 @@ public:
     double getHourlyRate() const { return hourlyRate; }
 
 
+    void showEmployeeInfo();
+
     void setName(const std::string& n) { name = n; }
     void setPosition(const std::string& pos) { position = pos; }
     void setHourlyRate(double rate) { hourlyRate = rate; }
 
     // Metody do interakcji z bazą danych
-    static Employee getFromDB(int employeeID, DatabaseConnection db);
     bool saveToDB(DatabaseConnection& db);
-    bool updateInDB(DatabaseConnection& db);
+    bool updateInDB(DatabaseConnection& db) const;
     bool removeFromDB(DatabaseConnection& db);
 
 };

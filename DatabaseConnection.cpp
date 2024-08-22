@@ -15,8 +15,9 @@ DatabaseConnection::DatabaseConnection() {
 }
 
 DatabaseConnection::~DatabaseConnection() {
-    this->disconnect();
 
+    sqlite3_close(this->dbConnection);
+    std::cout << "Connection closed\n";
 }
 
 bool DatabaseConnection::connect() {
@@ -25,49 +26,58 @@ bool DatabaseConnection::connect() {
 
     if(result) {
         std::cerr << "Failed to open database: " << sqlite3_errmsg(this->dbConnection) << std::endl;
+        return false;
     }
-    else {
-        std::cout << "Successfuly opened database" << std::endl;
-    }
+
+    std::cout << "Successfuly opened database" << std::endl;
+
+    return true;
 }
 
-void DatabaseConnection::disconnect() {
 
-    if(this->dbConnection) {
-        sqlite3_close(this->dbConnection);
-    }
-
-}
 
 auto DatabaseConnection::executeQuery(const std::string &query) -> bool {
     char* errorMessage;
-    int result = sqlite3_exec(this->dbConnection, query.c_str(), NULL, 0, &errorMessage);
+    int result = sqlite3_exec(this->dbConnection, query.c_str(), nullptr, 0, &errorMessage);
 
     if(result != SQLITE_OK) {
         sqlite3_free(errorMessage);
         return false;
     }
+
+    return true;
 }
 
-std::vector<std::vector<std::string>> DatabaseConnection::fetchResults(const std::string &query) {
-
+std::vector<std::vector<std::string>> DatabaseConnection::fetchResults(const std::string &query) const {
     std::vector<std::vector<std::string>> results;
-    sqlite3_stmt* stmt;
+    sqlite3_stmt* stmt = nullptr;
 
-    while(sqlite3_step(stmt) == SQLITE_ROW) {
+
+    // Przygotowanie zapytania SQL
+    int rc = sqlite3_prepare_v2(this->dbConnection, query.c_str(), -1, &stmt, nullptr);
+
+
+    if (rc != SQLITE_OK) {
+        std::cerr << "Failed to prepare statement: " << sqlite3_errmsg(this->dbConnection) << std::endl;
+    }
+
+    // Wykonanie zapytania i odczyt wyników
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
         std::vector<std::string> row;
         int columnCount = sqlite3_column_count(stmt);
 
-        for(int i=0; i < columnCount; i++) {
+        for (int i = 0; i < columnCount; i++) {
             const unsigned char *text = sqlite3_column_text(stmt, i);
-            row.push_back(text ? std::string(reinterpret_cast<const char*>(text)) : "");
+            row.push_back(text ? reinterpret_cast<const char*>(text) : "");
         }
 
         results.push_back(row);
-    }
-    sqlite3_finalize(stmt);
-    return results;
-}
 
-DatabaseConnection & DatabaseConnection::getInstance() {
+    }
+
+    // Finalizowanie statementu
+    if (stmt) {
+        sqlite3_finalize(stmt);
+    }
+    return results;
 }

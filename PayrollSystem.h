@@ -15,13 +15,13 @@ class PayrollSystem {
 
 public:
     // Obliczenia wynagrodzeń
-    static double calculateGrossPay(int employeeID, const std::string& startDate, const std::string& endDate, DatabaseConnection db);
-    static double calculateDeductions(int employeeID, double grossPay, DatabaseConnection db);
-    static double calculateNetPay(int employeeID, const std::string& startDate, const std::string& endDate, DatabaseConnection db);
+    static double calculateGrossPay(int employeeID, const std::string& startDate, const std::string& endDate, DatabaseConnection &db);
+    static double calculateDeductions(int employeeID, double grossPay, DatabaseConnection &db);
+    static double calculateNetPay(int employeeID, const std::string& startDate, const std::string& endDate, DatabaseConnection &db);
 
     // Raportowanie
-    static void generatePayrollReport(const std::string& startDate, const std::string& endDate, DatabaseConnection db);
-    static void generateEmployeeHoursReport(int employeeID, const std::string& startDate, const std::string& endDate, DatabaseConnection db);
+    static void generatePayrollReport(const std::string& startDate, const std::string& endDate, DatabaseConnection &db);
+    static void generateEmployeeHoursReport(int employeeID, const std::string& startDate, const std::string& endDate, DatabaseConnection &db);
 
 };
 

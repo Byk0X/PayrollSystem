@@ -1,0 +1,13 @@
+# ninja log v6
+1	364	1724286629980394714	CMakeFiles/PayrollSystem.dir/PayrollSystem.cpp.o	8e9604981d3982b7
+2	333	1724286648651542913	CMakeFiles/PayrollSystem.dir/Employee.cpp.o	2b4c4a2044c9c867
+3	385	1724285914123321207	CMakeFiles/PayrollSystem.dir/DatabaseConnection.cpp.o	f47bcdca3abdb3a0
+3	245	1724285914123321207	CMakeFiles/PayrollSystem.dir/TimeLog.cpp.o	df2826af6a2ce495
+0	26	1724283068316907061	build.ninja	cbe2116ffd9673f3
+1	396	1724286733940092666	CMakeFiles/PayrollSystem.dir/main.cpp.o	bc9470b9be101507
+396	447	1724286734333449957	PayrollSystem	8e8f65eb7e95ac74
+1	342	1724287000092799603	CMakeFiles/PayrollSystem.dir/main.cpp.o	bc9470b9be101507
+2	375	1724287000092799603	CMakeFiles/PayrollSystem.dir/DatabaseConnection.cpp.o	f47bcdca3abdb3a0
+375	426	1724287000466155236	PayrollSystem	8e8f65eb7e95ac74
+1	330	1724287271181689477	CMakeFiles/PayrollSystem.dir/main.cpp.o	bc9470b9be101507
+330	380	1724287271511532706	PayrollSystem	8e8f65eb7e95ac74

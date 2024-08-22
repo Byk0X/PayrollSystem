@@ -13,7 +13,7 @@
 class DatabaseConnection {
 
 private:
-    sqlite3* dbConnection;
+    sqlite3* dbConnection = nullptr;
 
 
 public:
@@ -22,16 +22,14 @@ public:
 
     // Metody do zarządzania połączeniem
     bool connect();
-    void disconnect();
 
     // Metody do wykonywania zapytań
     bool executeQuery(const std::string &query);
-    std::vector<std::vector<std::string>> fetchResults(const std::string& query);
+    std::vector<std::vector<std::string>> fetchResults(const std::string& query) const;
 
-    // Singleton dla zarządzania połączeniem
-    static DatabaseConnection& getInstance();
+    sqlite3* getDB() const {return this->dbConnection;};
 
-    sqlite3* getDB(){return this->dbConnection;};
+
 };
 
 

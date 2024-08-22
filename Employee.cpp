@@ -8,16 +8,14 @@
 #include "Employee.h"
 #include "DatabaseConnection.h"
 
-Employee Employee::getFromDB(int employeeID, DatabaseConnection db) {
 
-    std::string sql = "SELECT * FROM Employees WHERE employeeID = " + std::to_string(employeeID) + ";";
-    sqlite3_stmt* stmt;
+void Employee::showEmployeeInfo() {
 
-    if(sqlite3_prepare_v2(db.getDB(), sql.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
-        std::cerr << "Failed to prepare statement: " << sqlite3_errmsg(db.getDB()) << std::endl;
-    }
+    std::cout << "ID: " << this->name << "\n" <<
+        "Name: " << this->position << "\n" <<
+            "Position " << this->position << "\n" <<
+                "Hourly rate: " << this->hourlyRate << std::endl;
 
-    Employee employee();
 }
 
 bool Employee::saveToDB(DatabaseConnection& db) {
@@ -33,7 +31,7 @@ bool Employee::saveToDB(DatabaseConnection& db) {
     return true;
 }
 
-bool Employee::updateInDB(DatabaseConnection& db) {
+bool Employee::updateInDB(DatabaseConnection& db) const {
 
 
     char confirm;
@@ -93,7 +91,7 @@ bool Employee::updateInDB(DatabaseConnection& db) {
         first = false;
     }
 
-    if(newHourlyRate) {
+    if(newHourlyRateC) {
 
         if(!first) sql += ", ";
         sql += "hourlyRate = " + std::to_string(newHourlyRate);
