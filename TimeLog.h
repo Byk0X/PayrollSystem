@@ -7,6 +7,7 @@
 
 #include <string>
 
+
 #include "DatabaseConnection.h"
 
 
@@ -17,6 +18,8 @@ private:
     double hoursWorked;
 
 public:
+
+
 
     TimeLog(int id, const std::string& d, double hours)
             : employeeID(id), date(d), hoursWorked(hours) {}
@@ -30,8 +33,8 @@ public:
     void setHoursWorked(double hours) { hoursWorked = hours; }
 
     // Metody do interakcji z bazą danych
-    bool saveToDB(DatabaseConnection db);
-    static double getTotalHoursFromDB(int employeeID, const std::string& startDate, const std::string& endDate, DatabaseConnection db);
+    bool saveToDB(DatabaseConnection &db);
+    static double getTotalHoursFromDB(int employeeID, const std::string& startDate, const std::string& endDate, DatabaseConnection &db);
 };
 
 
